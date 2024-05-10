@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <title>土味情话</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: #8360c3;
+            /* fallback for old browsers */
+            background: -webkit-linear-gradient(-45deg, #2ebf91, #8360c3);
+            /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(-45deg, #2ebf91, #8360c3);
+            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        }
+
+        .wrapper {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+
+        }
+
+        /* 兼容PC端屏幕 */
+        @media screen and (min-width: 900px) {
+            .wrapper {
+                width: 768px;
+                margin: 0 auto;
+            }
+        }
+
+        .top {
+            text-align: center;
+            margin-top: -40px;
+        }
+
+        .top .logo {
+            width: 100px;
+        }
+
+        .top h2 {
+            font-size: 28px;
+            letter-spacing: 3px;
+            font-family: cursive;
+            margin-top: 0px;
+        }
+
+        .middle {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80%;
+            margin-top: -100px;
+        }
+
+        .middle .p {
+            text-align: center;
+        }
+
+        .middle button {
+            font-weight: 300;
+            font-size: 14px;
+            text-align: center;
+            line-height: 36px;
+            height: 36px;
+            padding: 0 36px;
+            margin: 0;
+            margin-top: 20px;
+            appearance: none;
+            cursor: pointer;
+            border: none;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            -webkit-transition-property: all;
+            transition-property: all;
+            -webkit-transition-duration: .3s;
+            transition-duration: .3s;
+            /* background-color: #1B9AF7; */
+            /* border-color: #1B9AF7; */
+            color: #FFF;
+            border-radius: 4px;
+            background: -webkit-linear-gradient(135deg, #2ebf91, #8360c3);
+            /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(135deg, #2ebf91, #8360c3);
+            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        }
+
+        footer {
+            font-size: 13px;
+        }
+
+        footer img {
+            width: 22px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="top">
+            <img src="img/logo.gif" class="logo">
+            <h2>土味情话</h2>
+        </div>
+        <div class="middle">
+            <p id="p" onclick="changeOne()"></p>
+            <button id="btn" onclick="copy()">复制</button>
+        </div>
+        <footer>Developed by Jason Bai with <img src="img/love2.gif" alt=""></footer>
+    </div>
+    <script>
+        const btnDom = document.querySelector('#btn')
+        const pDom = document.querySelector('#p')
+        let content = ''
+        let supportsVibrate = "vibrate" in navigator;
+
+        changeOne()
+
+        // 点击播放按钮
+        function changeOne() {
+            fetch(`https://api.uomg.com/api/rand.qinghua?format=json`).then(res => {
+                res.json().then(data => {
+                    if (supportsVibrate) {
+                        navigator.vibrate(50);
+                    }
+                    pDom.innerHTML = data.content
+                    content = data.content
+                })
+            })
+        }
+
+        // 复制视频链接到剪切板
+        function copy() {
+            let transfer = document.createElement('input');
+            document.body.appendChild(transfer);
+            transfer.value = content;  // 这里表示想要复制的内容
+            transfer.focus();
+            transfer.select();
+            if (document.execCommand('copy')) {
+                document.execCommand('copy');
+            }
+            transfer.blur();
+            document.body.removeChild(transfer);
+            alert('已复制到剪切板，快发给你喜欢的TA吧')
+        }
+
+    </script>
+</body>
+
+</html>
